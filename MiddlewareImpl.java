@@ -13,10 +13,9 @@ public class MiddlewareImpl extends UnicastRemoteObject implements Middleware {
 
         try {
             if (comando.equalsIgnoreCase("listar")) {
-                return ejecutar("tasklist"); // Windows
-                // return ejecutar("ps -aux"); // Linux
+                return obtenerProcesos();
             } else if (comando.startsWith("iniciar ")) {
-                String app = comando.substring(8); // Extraer el nombre de la app
+                String app = comando.substring(8);
                 return ejecutar("cmd /c start " + app); // Windows
                 // return ejecutar(app + " &"); // Linux
             } else if (comando.startsWith("detener ")) {
@@ -35,6 +34,17 @@ public class MiddlewareImpl extends UnicastRemoteObject implements Middleware {
         } catch (Exception e) {
             return "Error al ejecutar comando: " + e.getMessage();
         }
+    }
+
+    private String obtenerProcesos() throws IOException {
+        String sistemaOperativo = System.getProperty("os.name").toLowerCase();
+        String comando;
+        if (sistemaOperativo.contains("win")) {
+            comando = "tasklist"; // Windows
+        } else {
+            comando = "ps -aux"; // Linux/macOS
+        }
+        return ejecutar(comando);
     }
 
     private String ejecutar(String comando) throws IOException {

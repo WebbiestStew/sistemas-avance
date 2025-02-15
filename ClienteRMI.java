@@ -27,7 +27,7 @@ public class ClienteRMI {
 
                 // Enviar el comando al middleware y recibir la respuesta
                 String respuesta = middleware.ejecutarComando(comando);
-                System.out.println("Servidor RMI: " + respuesta);
+                System.out.println("Servidor RMI: \n" + respuesta);
             }
         } catch (Exception e) {
             System.out.println("Error en el cliente: " + e.getMessage());
